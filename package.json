@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "live-server --no-browser --watch=src --cors=*",
     "test": "jest --coverage --noStackTrace --silent"
   },
   "jest": {
