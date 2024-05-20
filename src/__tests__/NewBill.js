@@ -13,10 +13,66 @@ describe("Given I am connected as an employee", () => {
 
       const form = screen.getByTestId("form-new-bill");
       const expenseType = screen.getByTestId("expense-type");
- //
+
       // todo: add left inputs and labels
       expect(form).toBeTruthy();
       expect(expenseType).toBeTruthy();
+    });
+  });
+
+  describe("When I change file", () => {
+    test("Then file should be changed correctly", () => {
+      document.body.innerHTML = NewBillUI();
+
+      const fileUrl = "testFileUrl";
+      const key = "testKey";
+      const user = { email: "email@gmail.com" };
+      const fileName = "test.png";
+      const file = new File(["test"], fileName, { type: "image/png" });
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("email", user.email);
+
+      const input = screen.getByTestId("file");
+
+      const mockNavigate = jest.fn();
+      const mockGetItem = jest.fn().mockReturnValue(JSON.stringify(user));
+      const mockCreate = jest
+        .fn()
+        .mockReturnValue(Promise.resolve({ fileUrl, key }));
+
+      const mockLocalStorage = {
+        getItem: mockGetItem,
+      };
+
+      const mockStore = {
+        bills: jest.fn().mockReturnValue({
+          create: mockCreate,
+        }),
+      };
+
+      const newBill = new NewBill({
+        document,
+        onNavigate: mockNavigate,
+        store: mockStore,
+        localStorage: mockLocalStorage,
+      });
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      expect(mockCreate).toHaveBeenCalledWith({
+        data: formData,
+        headers: {
+          noContentType: true
+        },
+      });
+
+      waitFor(() => {
+        expect(newBill.billId).toBe(key);
+        expect(newBill.fileUrl).toBe(fileUrl);
+        expect(newBill.fileName).toBe(fileName);
+      });
     });
   });
 
@@ -37,7 +93,7 @@ describe("Given I am connected as an employee", () => {
         commentary: "testCommentary",
         fileUrl: null,
         fileName: null,
-        status: "pending"
+        status: "pending",
       };
 
       const form = screen.getByTestId("form-new-bill");
@@ -56,7 +112,7 @@ describe("Given I am connected as an employee", () => {
         }),
       };
 
-      const newBill = new NewBill({
+      new NewBill({
         document,
         onNavigate: mockNavigate,
         store: mockStore,
@@ -64,22 +120,22 @@ describe("Given I am connected as an employee", () => {
       });
 
       const expenseType = screen.getByTestId("expense-type");
-      const name = screen.getByTestId("expense-name")
+      const name = screen.getByTestId("expense-name");
       const amount = screen.getByTestId("amount");
       const date = screen.getByTestId("datepicker");
       const vat = screen.getByTestId("vat");
       const pct = screen.getByTestId("pct");
       const commentary = screen.getByTestId("commentary");
 
-      fireEvent.change(expenseType, {target: {value: bill.type}});
-      fireEvent.change(name, {target: {value: bill.name}});
-      fireEvent.change(amount, {target: {value: bill.amount}});
-      fireEvent.change(date, {target: {value: bill.date}});
-      fireEvent.change(vat, {target: {value: bill.vat}});
-      fireEvent.change(pct, {target: {value: bill.pct}});
-      fireEvent.change(commentary, {target: {value: bill.commentary}});
+      fireEvent.change(expenseType, { target: { value: bill.type } });
+      fireEvent.change(name, { target: { value: bill.name } });
+      fireEvent.change(amount, { target: { value: bill.amount } });
+      fireEvent.change(date, { target: { value: bill.date } });
+      fireEvent.change(vat, { target: { value: bill.vat } });
+      fireEvent.change(pct, { target: { value: bill.pct } });
+      fireEvent.change(commentary, { target: { value: bill.commentary } });
 
-      fireEvent.submit(form, {target: form});
+      fireEvent.submit(form, { target: form });
 
       expect(expenseType.value).toBe(bill.type);
       expect(name.value).toBe(bill.name);
@@ -87,11 +143,13 @@ describe("Given I am connected as an employee", () => {
       expect(date.value).toBe(bill.date);
       expect(parseInt(vat.value)).toBe(bill.vat);
       expect(parseInt(pct.value)).toBe(bill.pct);
-      expect(commentary.value).toBe(bill.commentary)
+      expect(commentary.value).toBe(bill.commentary);
 
       expect(mockUpdate).toHaveBeenCalled();
 
-      waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(ROUTES_PATH["Bills"]));
-    })
+      waitFor(() =>
+        expect(mockNavigate).toHaveBeenCalledWith(ROUTES_PATH["Bills"])
+      );
+    });
   });
 });
