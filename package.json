@@ -1,10 +1,9 @@
 {
   "scripts": {
-    "start": "live-server --no-browser --watch=src --cors=*",
-    "test": "jest --coverage --noStackTrace --silent",
-    "test:watch": "jest --watch"
+    "start": "live-server --no-browser --watch=src",
+    "test": "jest --coverage --noStackTrace --silent"
   },
-  "jest": {
+  "jest":  {
     "verbose": false,
     "setupFiles": [
       "./setup-jest.js"
