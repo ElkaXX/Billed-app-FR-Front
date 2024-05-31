@@ -35,17 +35,18 @@ describe("Given I am connected as an employee", () => {
       //to-do write expect expression
       expect(windowIcon.classList.contains("active-icon")).toBeTruthy();
     });
-    // test("Then bills should be ordered from earliest to latest", () => {
-    //   document.body.innerHTML = BillsUI({ data: bills });
-    //   const dates = screen
-    //     .getAllByText(
-    //       /^(19|20)\d\d[- /.](0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])$/i
-    //     )
-    //     .map((a) => a.innerHTML);
-    //   const antiChrono = (a, b) => (a < b ? 1 : -1);
-    //   const datesSorted = [...dates].sort(antiChrono);
-    //   expect(dates).toEqual(datesSorted);
-    // });
+
+    test("Then bills should be ordered from earliest to latest", () => {
+       document.body.innerHTML = BillsUI({ data: bills });
+       const dates = screen
+         .getAllByText(
+           /^(19|20)\d\d[- /.](0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])$/i
+         )
+         .map((a) => a.innerHTML);
+       const antiChrono = (a, b) => (a < b ? 1 : -1);
+       const datesSorted = [...dates].sort(antiChrono);
+       expect(dates).toEqual(datesSorted);
+     });
   });
 
   describe("When I click on New Bill button", () => {
@@ -104,7 +105,6 @@ describe("Given I am connected as an employee", () => {
         const error = screen.getByTestId("error-message");
         expect(error.innerText).toBe("Erreur 500");
       });
-      
     });
   });
 });

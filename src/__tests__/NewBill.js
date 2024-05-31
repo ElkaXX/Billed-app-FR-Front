@@ -74,6 +74,47 @@ describe("Given I am connected as an employee", () => {
         expect(newBill.fileName).toBe(fileName);
       });
     });
+
+    test("Then error message should be displayed for unsupported file type", async () => {
+      document.body.innerHTML = NewBillUI();
+
+      const user = { email: "email@gmail.com" };
+      const fileName = "test.txt"; // Unsupported file type
+      const file = new File(["test"], fileName, { type: "text/plain" });
+
+      const input = screen.getByTestId("file");
+
+      const mockNavigate = jest.fn();
+      const mockGetItem = jest.fn().mockReturnValue(JSON.stringify(user));
+      const mockCreate = jest.fn().mockReturnValue(Promise.resolve());
+
+      const mockLocalStorage = {
+        getItem: mockGetItem,
+      };
+
+      const mockStore = {
+        bills: jest.fn().mockReturnValue({
+          create: mockCreate,
+        }),
+      };
+
+      new NewBill({
+        document,
+        onNavigate: mockNavigate,
+        store: mockStore,
+        localStorage: mockLocalStorage,
+      });
+
+      fireEvent.change(input, { target: { files: [file] } });
+
+      const errorMessage = screen.getByText(
+        "Le format de fichier peut avoir les extensions « jpeg », « jpg », « png »."
+      );
+
+      await waitFor(() => {
+        expect(errorMessage.style.display).toBe("block");
+      });
+    });
   });
 
   describe("When I click on submit button", () => {

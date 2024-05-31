@@ -34,10 +34,14 @@ export default class NewBill {
 
     const allowedExtensions = ["jpg", "jpeg", "png"];
 
+    const errorMessage = this.document.querySelector("#file-error");
+
     if (!allowedExtensions.includes(fileExtension)) {
-      console.log("Incorrect file type");
+      errorMessage.style.display = "block";
       fileInput.value = "";
       return;
+    } else {
+      errorMessage.style.display = "none";
     }
 
     const filePath = e.target.value.split(/\\/g);
