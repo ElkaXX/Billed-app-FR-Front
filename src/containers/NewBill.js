@@ -30,13 +30,13 @@ export default class NewBill {
       return;
     }
 
-    const fileExtension = file.name.split(".").pop();
+    const fileExtension = file.name.split(".").pop();  // Chaîne pour obtenir l'extension du fichier
 
     const allowedExtensions = ["jpg", "jpeg", "png"];
 
     const errorMessage = this.document.querySelector("#file-error");
 
-    if (!allowedExtensions.includes(fileExtension)) {
+    if (!allowedExtensions.includes(fileExtension)) {  // Vérifier l'extension du fichier
       errorMessage.style.display = "block";
       fileInput.value = "";
       return;
