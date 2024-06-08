@@ -13,12 +13,27 @@ describe("Given I am connected as an employee", () => {
 
       const form = screen.getByTestId("form-new-bill");
       const expenseType = screen.getByTestId("expense-type");
+      const expenseName = screen.getByTestId("expense-name");
+      const date = screen.getByTestId("datepicker");
+      const amount = screen.getByTestId("amount");
+      const vat = screen.getByTestId("vat");
+      const pct = screen.getByTestId("pct");
+      const commentary = screen.getByTestId("commentary");
+      const file = screen.getByTestId("file");
 
-      // todo: add left inputs and labels
+      // Vérifier que tous les champs du formulaire sont présents
       expect(form).toBeTruthy();
       expect(expenseType).toBeTruthy();
+      expect(expenseName).toBeTruthy();
+      expect(date).toBeTruthy();
+      expect(amount).toBeTruthy();
+      expect(vat).toBeTruthy();
+      expect(pct).toBeTruthy();
+      expect(commentary).toBeTruthy();
+      expect(file).toBeTruthy();
     });
   });
+
 
   describe("When I change file", () => {
     test("Then file should be changed correctly", () => {

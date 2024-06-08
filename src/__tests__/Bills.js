@@ -48,6 +48,7 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted);
     });
 
+    //Le test vérifie le comportement de la fonction getBills lors du traitement de données invalides.
     describe("When getBills encounters an error", () => {
       test("Then it should log the error and return unformatted date", async () => {
         const corruptedBill = { ...bills[0], date: "invalid date" };
@@ -79,7 +80,7 @@ describe("Given I am connected as an employee", () => {
       });
     });
   });
-
+//Le test vérifie une navigation to new bill page on NewBill button click
   describe("When I click on New Bill button", () => {
     test("Then should be navigated to new bill page", () => {
       document.body.innerHTML = BillsUI({ data: bills });
@@ -113,7 +114,6 @@ describe("Given I am connected as an employee", () => {
       });
 
       window.onNavigate(ROUTES_PATH.Bills);
-      //await new Promise(process.nextTick);
       waitFor(() => {
         const error = screen.getByTestId("error-message");
         expect(error.innerText).toBe("Erreur 404");
