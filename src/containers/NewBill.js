@@ -29,14 +29,15 @@ export default class NewBill {
       console.log("No file");
       return;
     }
+    console.log("Selected file:", file.name);
 
-    const fileExtension = file.name.split(".").pop();  // Chaîne pour obtenir l'extension du fichier
+    const fileExtension = file.name.split(".").pop(); // Chaîne pour obtenir l'extension du fichier
 
-    const allowedExtensions = ["jpg", "jpeg", "png"];
+    const allowedExtensions = ["jpg", "jpeg", "png"]; // Extensions valides
 
     const errorMessage = this.document.querySelector("#file-error");
 
-    if (!allowedExtensions.includes(fileExtension)) {  // Vérifier l'extension du fichier
+    if (!allowedExtensions.includes(fileExtension)) {  // Vérifier l'extension du fichier
       errorMessage.style.display = "block";
       fileInput.value = "";
       return;

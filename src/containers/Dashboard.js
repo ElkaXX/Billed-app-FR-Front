@@ -153,12 +153,10 @@ export default class {
       $(`#status-bills-container${this.index}`).html("");
       this.counter++;
     }
-
     bills.forEach((bill) => {
       $(`#open-bill${bill.id}`)
-        .off("click")       // Supprime le gestionnaire de clic précédent
-        .on("click", (e) => this.handleEditTicket(e, bill, bills));  // Attribuer un nouveau gestionnaire de clics
-
+        .off("click")  // Supprime le gestionnaire de clic précédent
+        .on("click", (e) => this.handleEditTicket(e, bill, bills)); // Attribuer un nouveau gestionnaire de clics
     });
 
     return bills;
